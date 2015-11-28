@@ -5,6 +5,7 @@
 	<link rel="stylesheet" href="js/jquery-ui.css">
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="js/progressbar.min.js"></script>
+	<script src="js/url.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
 	<meta charset="utf-8">
@@ -40,36 +41,81 @@
 	</style>
 	<script>
 		$(function() {
+			var player_score = url('?')['p'];
+			var robo_score = url('?')['r'];
+			$('#pscore').text(player_score);
+			$('#rscore').text(robo_score);
+			var player_total = 20;
+			var robo_total = 16; 
 		    	var pbar = new ProgressBar.Circle('#playerpbar', {
 		    		color: '#62c462',
-       		    		duration: 20,
+       		    		duration: player_total,
 		    		strokeWidth: 20,
+				text:{style:{color:'#000000'}}
 		    	});
 		    	var rbar = new ProgressBar.Circle('#robopbar', {
 		    		color: '#62c462',
-       		    		duration: 20,
+       		    		duration: robo_total,
 		    		strokeWidth: 20,
 		    	});
 			var min_values = {p1sleep:3, p1c1:0, p1c2:0, p1job:1};
 			var rec_values = {p1sleep:8, p1c1:4, p1c2:4, p1job:4};
 			var cur_values = {};
 			function initialize(){
+				var min_total = player_total;
 				for (x in min_values){
 					$("#"+x).slider("value",min_values[x]);
 					cur_values[x] = min_values[x];
+					min_total = min_total - min_values[x];
+					if(cur_values[x] < rec_values[x]){
+						$("#"+x+'txt').removeClass('label-success');
+						$("#"+x+'txt').addClass('label-danger');
+					}
 				}
+				pbar.set(min_total/player_total);
+		    		pbar.setText(min_total);
 		    		rbar.set(1);
-		    		rbar.setText(20);
-		    		pbar.set(1);
-		    		pbar.setText(20);
+		    		rbar.setText(robo_total);
 			}
 			function refreshBar(){
-				val = $("#"+this.id).slider("value");
+				var val = $("#"+this.id).slider("value");
+				if(val < min_values[this.id]){
+					val = min_values[this.id];
+					$("#"+this.id).slider("value",val);
+				}
+				cur_values[this.id] = val;
+				var total = 0;
+				for(x in cur_values){
+					total = total+cur_values[x];
+				}
+				if(total > player_total){
+					val = player_total -total + val;
+					total = player_total;
+					$("#"+this.id).slider("value",val);
+				}
+				total = player_total-total;
+		    		pbar.set(total/player_total)
+				pbar.setText(total);
+				if(total<=player_total/2){
+					pbar.path.setAttribute('stroke','#fbb450');
+				}else{
+					pbar.path.setAttribute('stroke','#62c462');
+				}
+				if(total <=player_total/4){
+					pbar.path.setAttribute('stroke','#ee5f5b');
+				}
+				cur_values[this.id] = val;
 				$("#"+this.id+"val").text(val);
 				if(val >= rec_values[this.id]){
 					$("#"+this.id + " .ui-slider-range").css("background","#51a351");
+					$("#"+this.id+'txt').removeClass('label-success');
+					$("#"+this.id+'txt').removeClass('label-danger');
+					$("#"+this.id+'txt').addClass('label-success');
 				}else{
 					$("#"+this.id + " .ui-slider-range").css("background","#bd362f");
+					$("#"+this.id+'txt').removeClass('label-success');
+					$("#"+this.id+'txt').removeClass('label-danger');
+					$("#"+this.id+'txt').addClass('label-danger');
 				}
 			}
 		    $( "#p1sleep, #p1c1, #p1c2, #p1job, #rsleep, #rc1, #rc2, #rjob" ).slider({
@@ -100,7 +146,7 @@
 		<div class="row">
 			<div class="col-md-6" style="border-right: thick double #000000;">
 				<div class="row">
-					<div class="col-md-6"></div>
+					<div class="col-md-6"><h3><span class="label label-default"> Score: <span id="pscore">0</span></span></h3></div>
 					<div class="col-md-6" id="playerpbar" style="text-align:right"></div>
 				</div>
 				<div class="row" style="padding-bottom:10px;background:#ADADAD">
@@ -116,15 +162,15 @@
 					<div class="col-md-3"><div id="p1job" style="height:200px;"></div></div>
 				</div>
 				<div class="row"> 
-					<div class="col-md-3"><h3><span class="label label-primary">Sleep</span></h3></div>
-					<div class="col-md-3"><h3><span class="label label-primary">Course1</span></h3></div>
-					<div class="col-md-3"><h3><span class="label label-primary">Course2</span></h3></div>
-					<div class="col-md-3"><h3><span class="label label-primary">Job</span></h3></div>
+					<div class="col-md-3"><h3><span class="label label-success" id="p1sleeptxt">Sleep</span></h3></div>
+					<div class="col-md-3"><h3><span class="label label-success" id="p1c1txt">Course1</span></h3></div>
+					<div class="col-md-3"><h3><span class="label label-success" id="p1c2txt">Course2</span></h3></div>
+					<div class="col-md-3"><h3><span class="label label-success" id="p1jobtxt">Job</span></h3></div>
 				</div>
 			</div>
 			<div class="col-md-6"> 
 				<div class="row">
-					<div class="col-md-6"></div>
+					<div class="col-md-6"><h3><span class="label label-default"> Score: <span id="rscore">0</span></span></h3></div>
 					<div class="col-md-6" id="robopbar" style="text-align:right"></div>
 				</div>
 				<div class="row" style="padding-bottom:10px;background:#ADADAD">
