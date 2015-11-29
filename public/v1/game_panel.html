@@ -2,17 +2,17 @@
 <html>
     <head>
 	<title>Study</title>
-	<link rel="stylesheet" href="/js/jquery-ui.css">
+	<link rel="stylesheet" href="../js/jquery-ui.css">
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="/js/progressbar.min.js"></script>
-	<script src="/js/url.min.js"></script>
-	<script src="/js/jquery.blockUI.js"></script>
+	<script src="../js/progressbar.min.js"></script>
+	<script src="../js/url.min.js"></script>
+	<script src="../js/jquery.blockUI.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="/bs/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../bs/css/bootstrap.min.css" rel="stylesheet">
 	<style>
 		#playerpbar, #robopbar{
 			height: 60px;
@@ -42,19 +42,31 @@
 	</style>
 	<script>
 		$(function() {
+			var player_total_data = [20,19,18,17,16];
+			var rscore_data = [4,8,16,20,24];
+			var min_values_data = [	{p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0}];
+			var rec_values_data = [	{p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0}];
 		    	$('body').block({message:"Loading..."});
 			setTimeout(function(){ $('body').block({message:"Waiting for Pierre to play"});},1000);
 			setTimeout(function(){ $('body').unblock()},4000);
 			var exp_id = 1;
 			var player_score = url('?')['p'];
 			var robo_score = url('?')['r'];
-			var turn = url('?')['s'];
+			var turn = parseInt(url('?')['s']);
 			$('#pscore').text(player_score);
 			$('#rscore').text(robo_score);
-			var player_total = 20;
+			var player_total = player_total_data[turn];
 			var robo_total = 0; 
-			var min_values = {p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0};
-			var rec_values = {p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:2};
+			var min_values = min_values_data[turn];
+			var rec_values = rec_values_data[turn];
 		    	var pbar = new ProgressBar.Circle('#playerpbar', {
 		    		color: '#62c462',
        		    		duration: player_total,
@@ -135,28 +147,35 @@
 		    initialize();
 		    // Event handler for done;
 		    $("#donebutton").click(function(){
-			var rscore = 4;
-			var pscore = 0;
+			var rscore = parseInt(robo_score);
+			var pscore = parseInt(player_score);
 			for (var x in {p1sleep:1,p1c1:1,p1c2:1,p1job:1}){
 				if(rec_values[x] <= cur_values[x]){
 					pscore = pscore + 1;
 				}
 			}
+			for (var x in {rsleep:1,rc1:1,rc2:1,rjob:1}){
+				if(rec_values[x] <= cur_values[x]){
+					rscore = rscore + 1;
+				}
+			}
 			//post the log to remote server.
 			//load the next page.
-			turn = turn + 1;
 			var d = new Date();
 			var post_array = [];
 			post_array.push(d.getTime());
 			post_array.push(exp_id);
+			post_array.push(turn);
 			post_array.push(pscore);
 			post_array.push(rscore);
 			for (x in cur_values){ post_array.push(cur_values[x]);}
 			for (x in min_values){ post_array.push(min_values[x]);}
 			for (x in rec_values){ post_array.push(rec_values[x]);}
 			post_array.push(player_total);
+			turn = turn + 1;
 			var reload_params = "p="+pscore+"&r="+rscore+"&s="+turn;
-			$.ajax("http://veereshbeeram.me/study.php?data="+post_array.join()).done(function(){ alert(reload_params); });
+			$.ajax("/affect/public/study.php?data="+post_array.join()).done(function(){ 
+				window.location.href = "game_panel.html?"+reload_params });
 		    });
 		    //$("#rsleep").slider("disable");
 		    //$("#rsleep").slider("value","10");
