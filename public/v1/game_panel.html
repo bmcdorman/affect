@@ -42,12 +42,19 @@
 	</style>
 	<script>
 		$(function() {
+		    	$('body').block({message:"Loading..."});
+			setTimeout(function(){ $('body').block({message:"Waiting for Pierre to play"});},1000);
+			setTimeout(function(){ $('body').unblock()},4000);
+			var exp_id = 1;
 			var player_score = url('?')['p'];
 			var robo_score = url('?')['r'];
+			var turn = url('?')['s'];
 			$('#pscore').text(player_score);
 			$('#rscore').text(robo_score);
 			var player_total = 20;
 			var robo_total = 0; 
+			var min_values = {p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0};
+			var rec_values = {p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:2};
 		    	var pbar = new ProgressBar.Circle('#playerpbar', {
 		    		color: '#62c462',
        		    		duration: player_total,
@@ -59,8 +66,6 @@
        		    		duration: robo_total,
 		    		strokeWidth: 20,
 		    	});
-			var min_values = {p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0};
-			var rec_values = {p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:2};
 			var cur_values = {};
 			function initialize(){
 				var min_total = player_total;
@@ -128,6 +133,31 @@
 			slide: refreshBar
     			});
 		    initialize();
+		    // Event handler for done;
+		    $("#donebutton").click(function(){
+			var rscore = 4;
+			var pscore = 0;
+			for (var x in {p1sleep:1,p1c1:1,p1c2:1,p1job:1}){
+				if(rec_values[x] <= cur_values[x]){
+					pscore = pscore + 1;
+				}
+			}
+			//post the log to remote server.
+			//load the next page.
+			turn = turn + 1;
+			var d = new Date();
+			var post_array = [];
+			post_array.push(d.getTime());
+			post_array.push(exp_id);
+			post_array.push(pscore);
+			post_array.push(rscore);
+			for (x in cur_values){ post_array.push(cur_values[x]);}
+			for (x in min_values){ post_array.push(min_values[x]);}
+			for (x in rec_values){ post_array.push(rec_values[x]);}
+			post_array.push(player_total);
+			var reload_params = "p="+pscore+"&r="+rscore+"&s="+turn;
+			$.ajax("http://veereshbeeram.me/study.php?data="+post_array.join()).done(function(){ alert(reload_params); });
+		    });
 		    //$("#rsleep").slider("disable");
 		    //$("#rsleep").slider("value","10");
 		    //$('#block1').block({message:"b1"});
