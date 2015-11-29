@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<title>Study Start</title>
+	<link rel="stylesheet" href="../js/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="../js/progressbar.min.js"></script>
+	<script src="../js/url.min.js"></script>
+	<script src="../js/jquery.blockUI.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../bs/css/bootstrap.min.css" rel="stylesheet">
+	<script>
+		$(function() {
+		    $("#donebutton").click(function(){
+		    	$('body').block({message:"Loading..."});
+			var d = new Date();
+			var out_array = [d.getTime(),"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"];
+			$.ajax("/affect/public/study.php?data="+out_array.join()).done(function(){ 
+			setTimeout(function(){ $('body').unblock(); window.location.href = "game_panel.html?p=0&r=0&s=0"},2000);});
+		    });
+		});
+	</script>
+    </head>
+    <body>
+	<div class="container" >
+		
+		<div class="row" style="text-align:center;background:#ADADAD">
+			<div class="col-md-12" style="padding:15px">
+			<p> Hello and welcome to the study.</p>
+			<p> Please wait as Pierre explains the simple rules of this resource allocation game.</p>
+			<p> Click continue once you are ready to begin</p>
+			</div>
+		</div>
+		<div class="row" style="text-align:center; padding-top:35px">
+			<div class="col-md-12" ><button type="button" class="btn btn-primary" style="width:40%;height:50px" id="donebutton">Continue</button> </div>
+		</div>
+	</div>
+    </body>
+</html>
