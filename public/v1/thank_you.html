@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<title>Study End</title>
+	<link rel="stylesheet" href="../js/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="../js/progressbar.min.js"></script>
+	<script src="../js/url.min.js"></script>
+	<script src="../js/jquery.blockUI.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../bs/css/bootstrap.min.css" rel="stylesheet">
+	<script>
+		$(function() {
+                        var player_score = url('?')['p'];
+                        var robo_score = url('?')['r'];
+                        $('#pscore').text(player_score);
+                        $('#rscore').text(robo_score);
+		});
+	</script>
+    </head>
+    <body>
+	<div class="container" >
+                <div class="row" style="text-align:center;background:#ADADAD">
+                        <div class="col-md-6" style="border-right: thick double #000000;padding:15px">
+                                <h2><span class="label label-primary">You</span></h2>
+                        </div>
+                        <div class="col-md-6" style="padding:15px" id="block1">
+                                <h2><span class="label label-primary">Pierre</span></h2>
+                        </div>
+                </div>
+                <div class="row" style="text-align:center">
+                        <div class="col-md-6" style="border-right: thick double #000000;">
+                                <div class="row">
+                                        <div class="col-md-12"><h3><span class="label label-default"> Score: <span id="pscore">0</span></span></h3></div>
+                                </div>
+			</div>
+                        <div class="col-md-6" style="text-align:center">
+                                <div class="row" id="block2">
+                                        <div class="col-md-12"><h3><span class="label label-default"> Score: <span id="rscore">0</span></span></h3></div>
+                                </div>
+			</div>
+		</div>
+	
+		<div class="row" style="text-align:center;background:#ADADAD">
+			<div class="col-md-12" style="padding:15px">
+			<p> Thank you for your time.</p>
+			<p> Please complete the post-study survey.</p>
+			</div>
+		</div>
+	</div>
+    </body>
+</html>
