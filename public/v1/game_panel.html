@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-	<title>Interaction Game</title>
-	<link rel="stylesheet" href="js/jquery-ui.css">
+	<title>Study</title>
+	<link rel="stylesheet" href="/js/jquery-ui.css">
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="js/progressbar.min.js"></script>
-	<script src="js/url.min.js"></script>
-	<script src="js/jquery.blockUI.js"></script>
+	<script src="/js/progressbar.min.js"></script>
+	<script src="/js/url.min.js"></script>
+	<script src="/js/jquery.blockUI.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="bs/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/bs/css/bootstrap.min.css" rel="stylesheet">
 	<style>
 		#playerpbar, #robopbar{
 			height: 60px;
@@ -47,7 +47,7 @@
 			$('#pscore').text(player_score);
 			$('#rscore').text(robo_score);
 			var player_total = 20;
-			var robo_total = 16; 
+			var robo_total = 0; 
 		    	var pbar = new ProgressBar.Circle('#playerpbar', {
 		    		color: '#62c462',
        		    		duration: player_total,
@@ -59,8 +59,8 @@
        		    		duration: robo_total,
 		    		strokeWidth: 20,
 		    	});
-			var min_values = {p1sleep:3, p1c1:0, p1c2:0, p1job:1};
-			var rec_values = {p1sleep:8, p1c1:4, p1c2:4, p1job:4};
+			var min_values = {p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0};
+			var rec_values = {p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:2};
 			var cur_values = {};
 			function initialize(){
 				var min_total = player_total;
@@ -75,7 +75,7 @@
 				}
 				pbar.set(min_total/player_total);
 		    		pbar.setText(min_total);
-		    		rbar.set(1);
+		    		rbar.set(0);
 		    		rbar.setText(robo_total);
 			}
 			function refreshBar(){
@@ -180,10 +180,10 @@
 					<div class="col-md-6" id="robopbar" style="text-align:right"></div>
 				</div>
 				<div class="row" style="padding-bottom:10px;background:#ADADAD" id="block3">
-					<div class="col-md-3"><h3><span class="label label-primary" id="rvalsleep">0</span></h3></div>
-					<div class="col-md-3"><h3><span class="label label-primary" id="rvalc1">0</span></h3></div>
-					<div class="col-md-3"><h3><span class="label label-primary" id="rvalc2">0</span></h3></div>
-					<div class="col-md-3"><h3><span class="label label-primary" id="rvaljob">0</span></h3></div>
+					<div class="col-md-3"><h3><span class="label label-primary" id="rsleepval">0</span></h3></div>
+					<div class="col-md-3"><h3><span class="label label-primary" id="rc1val">0</span></h3></div>
+					<div class="col-md-3"><h3><span class="label label-primary" id="rc2val">0</span></h3></div>
+					<div class="col-md-3"><h3><span class="label label-primary" id="rjobval">0</span></h3></div>
 				</div>
 				<div class="row" style="padding-top:5px" id="block4">
 					<div class="col-md-3"><div id="rsleep" style="height:200px;"></div></div>
@@ -198,6 +198,9 @@
 					<div class="col-md-3"><h3><span class="label label-primary">Job</span></h3></div>
 				</div>
 			</div>
+		</div>
+		<div class="row" style="text-align:center; padding-top:35px">
+			<div class="col-md-12" ><button type="button" class="btn btn-primary" style="width:40%;height:50px" id="donebutton">Done</button> </div>
 		</div>
 	</div>
     </body>
