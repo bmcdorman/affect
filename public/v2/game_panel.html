@@ -42,18 +42,18 @@
 	</style>
 	<script>
 		$(function() {
-			var player_total_data = [20,19,18,17,16];
+			var player_total_data = [20,20,20,20,20];
 			var rscore_data = [4,8,16,20,24];
-			var min_values_data = [	{p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0},
-						{p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0},
-						{p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0},
-						{p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0},
-						{p1sleep:3, p1c1:0, p1c2:0, p1job:1, rsleep:0, rc1:0, rc2:0, rjob:0}];
-			var rec_values_data = [	{p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0},
-						{p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0},
-						{p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:2},
-						{p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:3},
-						{p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:4}];
+			var min_values_data = [	{p1sleep:3, p1c1:0, p1c2:0, p1job:0, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:3, p1c1:0, p1c2:0, p1job:0, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:3, p1c1:0, p1c2:0, p1job:0, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:3, p1c1:0, p1c2:0, p1job:0, rsleep:0, rc1:0, rc2:0, rjob:0},
+						{p1sleep:3, p1c1:0, p1c2:0, p1job:0, rsleep:0, rc1:0, rc2:0, rjob:0}];
+                        var rec_values_data = [ {p1sleep:8, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0},
+                                                {p1sleep:7, p1c1:5, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0},
+                                                {p1sleep:8, p1c1:5, p1c2:5, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0},
+                                                {p1sleep:6, p1c1:5, p1c2:5, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:2},
+                                                {p1sleep:10, p1c1:4, p1c2:4, p1job:4, rsleep:0, rc1:0, rc2:0, rjob:0}];
 		    	$('body').block({message:"Loading..."});
 			setTimeout(function(){ $('body').block({message:"Waiting for Pierre to play"});},1000);
 			setTimeout(function(){ $('body').unblock()},4000);
